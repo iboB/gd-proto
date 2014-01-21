@@ -1,3 +1,6 @@
 [submodule "third_party/lib/mathgp"]
 	path = third_party/lib/mathgp
 	url = https://github.com/iboB/mathgp.git
+[submodule "third_party/lib/libRocket"]
+	path = third_party/lib/libRocket
+	url = https://github.com/iboB/libRocket.git
