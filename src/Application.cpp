@@ -50,6 +50,7 @@ void Application::run()
         drawFrame();
         updateFPSData();
 
+        // force framerate
         unsigned frameLength = SDL_GetTicks() - frameStart;
         if(frameLength < m_desiredFrameTime)
         {
