@@ -15,8 +15,6 @@ There are submodules in this repo. Don't forget to call `git submodule init` and
 and extract it to `third_party\lib` (result should be`<your_path>\third_party\lib\SDL2-2.0.1`)
 * Download glew 1.10.0 from [the official website](http://glew.sourceforge.net/)
 and extract it to `third_party\lib`
-* Download freetype 2.5.2 from [SourceForge](http://sourceforge.net/projects/freetype/files/freetype2/2.5.2/)
-and extract it to `third_party\lib`
 
 
 Copyright
