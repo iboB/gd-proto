@@ -50,4 +50,4 @@ T* ExplicitSingleton<T>::m_instance = nullptr;
     private: \
         type(); \
         ~type(); \
-        friend class ::engine::ExplicitSingleton<type>
+        friend class ::ExplicitSingleton<type>

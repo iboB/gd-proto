@@ -16,6 +16,8 @@ class Scene;
 class IObjectController;
 class Renderer;
 
+class GUILayer;
+
 class Application : public ImplicitSingleton<Application>
 {
 public:
@@ -23,6 +25,8 @@ public:
     ~Application();
 
     void run();
+
+    const mathgp::uvector2& screenSize() const;
 
 private:
     void initialize();
@@ -43,6 +47,14 @@ private:
     void drawFrame();
 
     //////////////////////////////////////
+    // time
+public:
+    unsigned currentFrameTime() const { return m_currentFrameTime; }
+
+private:
+    unsigned m_currentFrameTime; // start of current frame (ms)
+
+    //////////////////////////////////////
     // fps stuff
     unsigned  m_desiredFrameTime; // the application will try to work at this time per frame
 
@@ -56,4 +68,8 @@ private:
     //////////////////////////////////////
     // debugging and so forth
     bool m_isWireframe;
+
+    //////////////////////////////////////
+    // gui
+    GUILayer* m_guiLayer;
 };

@@ -26,3 +26,7 @@ Copyright &copy; 2014 Borislav Stanimirov.
 
 This project is distributed under the MIT Software License. See LICENSE.txt for
 further details or copy [here](http://opensource.org/licenses/MIT).
+
+### Assets
+
+* Atari true type font by [Genshichi Yasui](http://www.jttk.zaq.ne.jp/babwp701/index.html)

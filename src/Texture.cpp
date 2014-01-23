@@ -48,9 +48,8 @@ void Texture::loadFromFile(const char* filename)
         break;
     default:
     {
-        ostringstream sout;
-        sout << "unsupported texture format for " << filename;
-        throw runtime_error(sout.str());
+        cout << "unsupported texture format for " << filename << endl;
+        assert(false);
     }
         break;
     }
