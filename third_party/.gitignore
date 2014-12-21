@@ -1,6 +1,6 @@
 # Windows libraries
 
-lib/SDL2-2.0.1
-lib/glew-1.10.0
+lib/SDL2-2.0.3
+lib/glew-1.11.0
 lib/boost_1_54_0
 lib/SDL2_image-2.0.0

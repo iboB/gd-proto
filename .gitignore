@@ -4,6 +4,8 @@
 *.dll
 *.ilk
 *.pdb
+*.exp
+*.lib
 
 *.opensdf
 *.sdf
@@ -12,3 +14,8 @@
 ipch/
 
 Debug/
+Release/
+
+# release files
+*.zip
+
