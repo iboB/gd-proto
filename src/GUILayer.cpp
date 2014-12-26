@@ -58,16 +58,18 @@ void GUILayer::update()
 
 void GUILayer::draw()
 {
-    glEnableVertexAttribArray(Attrib_Position);
-    glEnableVertexAttribArray(Attrib_Color);
-    glEnableVertexAttribArray(Attrib_TexCoord);
-
-    SENTRY(GLDisableSentry, GL_DEPTH_TEST);    
+    SENTRY(GLDisableSentry, GL_DEPTH_TEST);
     SENTRY(GLEnableSentry, GL_BLEND);
+
+    // all gui vertices have these attribs
+    SENTRY(GLEnableAttribSentry, Attrib_Position);
+    SENTRY(GLEnableAttribSentry, Attrib_Color);
 
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
     m_rocketContext->Render();
+
+    glDisableVertexAttribArray(Attrib_TexCoord); // this may have been enabled by the render function
 }
 
 void GUILayer::loadRootRml(const std::string& rmlPath)

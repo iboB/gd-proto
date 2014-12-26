@@ -12,14 +12,18 @@
 
 #include "Application.h"
 #include "Texture.h"
-
 #include "GUIAttribs.h"
+#include "GPUProgram.h"
+#include "Shader.h"
 
 #include <Rocket/Core/Context.h>
 
 using namespace std;
 using namespace mathgp;
 
+// The commented out line "precision mediump float;" was issuing a warning
+// on Windows.
+// Think of a way to gave it for opengl es only
 static const char* FragmentTextureShaderSource =
 "\
     /*precision mediump float;*/ \
@@ -66,109 +70,51 @@ static const char* VertexShaderSource =
 ";
 
 
-static GLuint CreateSimpleShader(GLenum type, const char* source)
-{
-    const char* glSources[] = { source };
-    const GLint glLengths[] = { GLint(strlen(source)) };
-
-    GLuint shaderId = glCreateShader(type);
-    glShaderSource(shaderId, 1, glSources, glLengths);
-    glCompileShader(shaderId);
-
-    GLint compilationSuccess = GL_FALSE;
-    glGetShaderiv(shaderId, GL_COMPILE_STATUS, &compilationSuccess);
-
-    GLenum glError = glGetError();
-    if (glError != GL_NO_ERROR || !compilationSuccess)
-    {
-        GLint infoLen = 0;
-        glGetShaderiv(shaderId, GL_INFO_LOG_LENGTH, &infoLen);
-
-        if (infoLen)
-        {
-            char* infoLog = new char[infoLen];
-            glGetShaderInfoLog(shaderId, infoLen, nullptr, infoLog);
-
-            assert(false);
-            cout << "error compiling shader:\n"
-                << infoLog << endl;
-
-            delete[] infoLog;
-        }
-        else
-        {
-            assert(false);
-            cout << "unknown error compiling shader" << endl;
-        }
-
-        return 0;
-    }
-
-    return shaderId;
-}
-
-static GLuint CreateProgram(GLuint vertexShader, GLuint fragmentShader)
-{
-    GLuint programId = glCreateProgram();
-    glAttachShader(programId, vertexShader);
-    glAttachShader(programId, fragmentShader);
-
-    // bind custom attribs
-    glBindAttribLocation(programId, Attrib_Position, "a_position");
-    glBindAttribLocation(programId, Attrib_TexCoord, "a_texCoord");
-    glBindAttribLocation(programId, Attrib_Color, "a_color");
-
-    glLinkProgram(programId);
-
-    GLint linkSuccess;
-    glGetProgramiv(programId, GL_LINK_STATUS, &linkSuccess);
-
-    GLenum glError = glGetError();
-    if (glError != GL_NO_ERROR || !linkSuccess)
-    {
-        GLint infoLen = 0;
-        glGetProgramiv(programId, GL_INFO_LOG_LENGTH, &infoLen);
-
-        if (infoLen)
-        {
-            char* infoLog = new char[infoLen];
-            glGetProgramInfoLog(programId, infoLen, nullptr, infoLog);
-
-            assert(false);
-            cout << "error linking program:\n" << infoLog << endl;
-
-            delete[] infoLog;
-        }
-        else
-        {
-            assert(false);
-            cout << "unknown error linking program" << endl;
-        }
-
-        return 0;
-    }
-
-    return programId;
-}
-
 GUIRenderInterface::GUIRenderInterface()
 {
     glGetError(); // clear error state so as to not confuse opengl about the compilation errors
 
-    // create shaders
-    m_fragmentTextureShaderId = CreateSimpleShader(GL_FRAGMENT_SHADER, FragmentTextureShaderSource);
-    m_fragmentColorShaderId = CreateSimpleShader(GL_FRAGMENT_SHADER, FragmentColorShaderSource);
-    m_vertexShaderId = CreateSimpleShader(GL_VERTEX_SHADER, VertexShaderSource);
+    auto texturePixelShader = make_shared<Shader>(ShaderType::Pixel, "gui texture pixel shader");
+    texturePixelShader->load(FragmentTextureShaderSource);
 
-    // Create Programs
-    m_textureProgramId = CreateProgram(m_vertexShaderId, m_fragmentTextureShaderId);
-    m_ulTexture = glGetUniformLocation(m_textureProgramId, "u_texture");
-    m_ulTextureProjection = glGetUniformLocation(m_textureProgramId, "u_projection");
-    m_ulTextureTranslation = glGetUniformLocation(m_textureProgramId, "u_translation");
+    auto colorPixelShader = make_shared<Shader>(ShaderType::Pixel, "gui texture color shader");
+    colorPixelShader->load(FragmentColorShaderSource);
 
-    m_colorProgramId = CreateProgram(m_vertexShaderId, m_fragmentColorShaderId);
-    m_ulColorProjection = glGetUniformLocation(m_colorProgramId, "u_projection");
-    m_ulColorTranslation = glGetUniformLocation(m_colorProgramId, "u_translation");
+    auto vertexShader = make_shared<Shader>(ShaderType::Vertex, "gui vertex shader");
+    vertexShader->load(VertexShaderSource);
+
+    ///////////////////////////////////////////////////
+    // create the color program
+    m_colorProgram = make_shared<GPUProgram>("gui color program");
+
+    m_colorProgram->attachShader(vertexShader);
+    m_colorProgram->attachShader(colorPixelShader);
+
+    m_colorProgram->bindCustomAttribute("a_position", Attrib_Position);
+    m_colorProgram->bindCustomAttribute("a_texCoord", Attrib_TexCoord);
+    m_colorProgram->bindCustomAttribute("a_color", Attrib_Color);
+
+    m_colorProgram->link();
+
+    m_colorProjection = m_colorProgram->getParameterByName("u_projection");
+    m_colorTranslation = m_colorProgram->getParameterByName("u_translation");
+
+    ///////////////////////////////////////////////////
+    // create the texture program
+    m_textureProgram = make_shared<GPUProgram>("gui color program");
+
+    m_textureProgram->attachShader(vertexShader);
+    m_textureProgram->attachShader(texturePixelShader);
+
+    m_textureProgram->bindCustomAttribute("a_position", Attrib_Position);
+    m_textureProgram->bindCustomAttribute("a_texCoord", Attrib_TexCoord);
+    m_textureProgram->bindCustomAttribute("a_color", Attrib_Color);
+
+    m_textureProgram->link();
+
+    m_texture = m_textureProgram->getParameterByName("u_texture");
+    m_textureProjection = m_textureProgram->getParameterByName("u_projection");
+    m_textureTranslation = m_textureProgram->getParameterByName("u_translation");
 }
 
 
@@ -188,15 +134,15 @@ void GUIRenderInterface::RenderGeometry(Rocket::Core::Vertex* vertices, int numV
 
     if (textureHandle)
     {
-        glUseProgram(m_textureProgramId);
-        glUniformMatrix4fv(m_ulTextureProjection, 1, GL_FALSE, projection.as_array());
-        glUniform2f(m_ulTextureTranslation, translation.x, translation.y);
+        m_textureProgram->use();
+        m_textureProgram->setParameter(m_textureProjection, projection);
+        m_textureProgram->setParameter(m_textureTranslation, vc(translation.x, translation.y));
     }
     else
     {
-        glUseProgram(m_colorProgramId);
-        glUniformMatrix4fv(m_ulColorProjection, 1, GL_FALSE, projection.as_array());
-        glUniform2f(m_ulColorTranslation, translation.x, translation.y);
+        m_colorProgram->use();
+        m_colorProgram->setParameter(m_colorProjection, projection);
+        m_colorProgram->setParameter(m_colorTranslation, vc(translation.x, translation.y));
     }
 
     glVertexAttribPointer(Attrib_Position, 2, GL_FLOAT, GL_FALSE, sizeof(Rocket::Core::Vertex), &vertices->position);    
@@ -205,9 +151,13 @@ void GUIRenderInterface::RenderGeometry(Rocket::Core::Vertex* vertices, int numV
     if (textureHandle)
     {
         auto tex = reinterpret_cast<Texture*>(textureHandle);
-        glBindTexture(GL_TEXTURE_2D, tex->glHandle());
-        glUniform1i(m_ulTexture, 0);
+        m_textureProgram->setParameter(m_texture, *tex);
         glVertexAttribPointer(Attrib_TexCoord, 2, GL_FLOAT, GL_FALSE, sizeof(Rocket::Core::Vertex), &vertices->tex_coord);
+        glEnableVertexAttribArray(Attrib_TexCoord);
+    }
+    else
+    {
+        glDisableVertexAttribArray(Attrib_TexCoord);
     }
 
     glDrawElements(GL_TRIANGLES, numIndices, GL_UNSIGNED_INT, indices);
@@ -241,9 +191,11 @@ void GUIRenderInterface::SetScissorRegion(int x, int y, int width, int height)
 bool GUIRenderInterface::LoadTexture(Rocket::Core::TextureHandle& outTextureHandle,
     Rocket::Core::Vector2i& outTextureDimensions, const Rocket::Core::String& resourcePath)
 {
-    auto tex = new Texture;
+    auto tex = new Texture(resourcePath.CString());
 
     tex->loadFromFile(resourcePath.CString());
+
+    outTextureHandle = reinterpret_cast<Rocket::Core::TextureHandle>(tex);
 
     return !!tex;
 }
@@ -251,7 +203,7 @@ bool GUIRenderInterface::LoadTexture(Rocket::Core::TextureHandle& outTextureHand
 bool GUIRenderInterface::GenerateTexture(Rocket::Core::TextureHandle& outTextureHandle, const Rocket::Core::byte* data,
     const Rocket::Core::Vector2i& sourceDimensions)
 {
-    auto tex = new Texture;
+    auto tex = new Texture("libRocket generated");
     tex->loadFromData(GL_RGBA, sourceDimensions.x, sourceDimensions.y, GL_RGBA, GL_UNSIGNED_BYTE, data);
 
     outTextureHandle = reinterpret_cast<Rocket::Core::TextureHandle>(tex);

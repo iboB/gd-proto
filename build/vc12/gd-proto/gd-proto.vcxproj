@@ -87,10 +87,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\src\Constants.h" />
     <ClInclude Include="..\..\..\src\ExplicitSingleton.h" />
     <ClInclude Include="..\..\..\src\Application.h" />
+    <ClInclude Include="..\..\..\src\GameState.h" />
+    <ClInclude Include="..\..\..\src\GameStateManager.h" />
     <ClInclude Include="..\..\..\src\GDProto.pch.h" />
     <ClInclude Include="..\..\..\src\GLSentries.h" />
+    <ClInclude Include="..\..\..\src\GPUProgram.h" />
+    <ClInclude Include="..\..\..\src\GPUProgramPtr.h" />
     <ClInclude Include="..\..\..\src\GUI.h" />
     <ClInclude Include="..\..\..\src\GUIAttribs.h" />
     <ClInclude Include="..\..\..\src\GUILayer.h" />
@@ -98,24 +103,45 @@
     <ClInclude Include="..\..\..\src\GUISystemInterface.h" />
     <ClInclude Include="..\..\..\src\ImplicitSingleton.h" />
     <ClInclude Include="..\..\..\src\Macros.h" />
+    <ClInclude Include="..\..\..\src\MainMenuState.h" />
     <ClInclude Include="..\..\..\src\MainWindow.h" />
     <ClInclude Include="..\..\..\src\Memory.h" />
     <ClInclude Include="..\..\..\src\Platform.h" />
+    <ClInclude Include="..\..\..\src\ResourceConstants.h" />
+    <ClInclude Include="..\..\..\src\ResourceManager.h" />
+    <ClInclude Include="..\..\..\src\Shader.h" />
+    <ClInclude Include="..\..\..\src\ShaderPtr.h" />
+    <ClInclude Include="..\..\..\src\ShaderType.h" />
     <ClInclude Include="..\..\..\src\Texture.h" />
+    <ClInclude Include="..\..\..\src\TexturePtr.h" />
+    <ClInclude Include="..\..\..\src\Types.h" />
+    <ClInclude Include="..\..\..\src\Util.h" />
     <ClInclude Include="..\..\..\src\VersionInfo.h" />
+    <ClInclude Include="..\..\..\src\VertexAttrib.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="..\..\..\src\Constants.cpp" />
     <ClCompile Include="..\..\..\src\EntryPoint.cpp" />
     <ClCompile Include="..\..\..\src\Application.cpp" />
+    <ClCompile Include="..\..\..\src\GameStateManager.cpp" />
     <ClCompile Include="..\..\..\src\GDProto.pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="..\..\..\src\GPUProgram.cpp" />
     <ClCompile Include="..\..\..\src\GUI.cpp" />
     <ClCompile Include="..\..\..\src\GUILayer.cpp" />
     <ClCompile Include="..\..\..\src\GUIRenderInterface.cpp" />
     <ClCompile Include="..\..\..\src\GUISystemInterface.cpp" />
+    <ClCompile Include="..\..\..\src\MainMenuState.cpp" />
     <ClCompile Include="..\..\..\src\MainWindow.cpp" />
+    <ClCompile Include="..\..\..\src\ResourceManager.cpp" />
+    <ClCompile Include="..\..\..\src\Shader.cpp" />
     <ClCompile Include="..\..\..\src\Texture.cpp" />
+    <ClCompile Include="..\..\..\src\Util.cpp" />
+    <ClCompile Include="..\..\..\src\VertexAttrib.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\src\Loaders.inl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

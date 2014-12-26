@@ -1,12 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <ClInclude Include="..\..\..\src\Memory.h">
-      <Filter>Core</Filter>
-    </ClInclude>
-    <ClInclude Include="..\..\..\src\Platform.h">
-      <Filter>Core</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\src\VersionInfo.h">
       <Filter>Core</Filter>
     </ClInclude>
@@ -23,31 +17,82 @@
       <Filter>Core</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\GUI.h">
-      <Filter>GUI</Filter>
+      <Filter>Core\GUI</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\GUISystemInterface.h">
-      <Filter>GUI</Filter>
+      <Filter>Core\GUI</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\GUIRenderInterface.h">
-      <Filter>GUI</Filter>
+      <Filter>Core\GUI</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\GDProto.pch.h">
       <Filter>Core\PrecompiledHeader</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\src\Texture.h">
-      <Filter>Core</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\..\src\GUILayer.h">
-      <Filter>GUI</Filter>
+      <Filter>Core\GUI</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\GUIAttribs.h">
-      <Filter>GUI</Filter>
+      <Filter>Core\GUI</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\src\GLSentries.h">
-      <Filter>Core</Filter>
+    <ClInclude Include="..\..\..\src\Memory.h">
+      <Filter>Core\PrecompiledHeader</Filter>
     </ClInclude>
     <ClInclude Include="..\..\..\src\Macros.h">
+      <Filter>Core\PrecompiledHeader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\GPUProgram.h">
+      <Filter>Core\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\GPUProgramPtr.h">
+      <Filter>Core\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\Texture.h">
+      <Filter>Core\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\TexturePtr.h">
+      <Filter>Core\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\Shader.h">
+      <Filter>Core\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\ShaderPtr.h">
+      <Filter>Core\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\ResourceConstants.h">
+      <Filter>Core\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\ResourceManager.h">
+      <Filter>Core\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\ShaderType.h">
+      <Filter>Core\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\Util.h">
       <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\GLSentries.h">
+      <Filter>Core\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\Platform.h">
+      <Filter>Core\PrecompiledHeader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\Constants.h">
+      <Filter>Core\PrecompiledHeader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\Types.h">
+      <Filter>Core\PrecompiledHeader</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\VertexAttrib.h">
+      <Filter>Core\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\GameStateManager.h">
+      <Filter>Core\States</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\GameState.h">
+      <Filter>Core\States</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\src\MainMenuState.h">
+      <Filter>Game\Startup</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -61,33 +106,77 @@
       <Filter>Core</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\GUI.cpp">
-      <Filter>GUI</Filter>
+      <Filter>Core\GUI</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\GUISystemInterface.cpp">
-      <Filter>GUI</Filter>
+      <Filter>Core\GUI</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\GUIRenderInterface.cpp">
-      <Filter>GUI</Filter>
+      <Filter>Core\GUI</Filter>
     </ClCompile>
     <ClCompile Include="..\..\..\src\GDProto.pch.cpp">
       <Filter>Core\PrecompiledHeader</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\..\src\GUILayer.cpp">
+      <Filter>Core\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\GPUProgram.cpp">
+      <Filter>Core\Rendering</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\..\src\Texture.cpp">
+      <Filter>Core\Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\Shader.cpp">
+      <Filter>Core\Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\ResourceManager.cpp">
+      <Filter>Core\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\Util.cpp">
       <Filter>Core</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\..\src\GUILayer.cpp">
-      <Filter>GUI</Filter>
+    <ClCompile Include="..\..\..\src\Constants.cpp">
+      <Filter>Core\PrecompiledHeader</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\VertexAttrib.cpp">
+      <Filter>Core\Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\GameStateManager.cpp">
+      <Filter>Core\States</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\..\src\MainMenuState.cpp">
+      <Filter>Game\Startup</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <Filter Include="GUI">
-      <UniqueIdentifier>{16def308-c4e5-42dd-b51c-cbbf19639f04}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Core">
       <UniqueIdentifier>{6402e453-d651-4c6c-8690-b874d713b1f9}</UniqueIdentifier>
     </Filter>
     <Filter Include="Core\PrecompiledHeader">
       <UniqueIdentifier>{07404084-7c73-4202-8052-7e98740befcb}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Core\GUI">
+      <UniqueIdentifier>{16def308-c4e5-42dd-b51c-cbbf19639f04}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Rendering">
+      <UniqueIdentifier>{a271e3cd-c3ac-4681-a594-7abd23b70fcf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\Resources">
+      <UniqueIdentifier>{1a1347b6-0797-452c-acdf-119d857cd770}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Core\States">
+      <UniqueIdentifier>{a2e2ba02-c1d2-4e3b-9c95-b21b1280f653}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game">
+      <UniqueIdentifier>{0e0c38eb-8764-4b76-8147-d0867bfa698f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Game\Startup">
+      <UniqueIdentifier>{e216a488-5907-4479-aa0e-8f221395648f}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="..\..\..\src\Loaders.inl">
+      <Filter>Core\Resources</Filter>
+    </None>
   </ItemGroup>
 </Project>

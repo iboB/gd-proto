@@ -9,6 +9,8 @@
 // precompiled header file
 #pragma once
 
+#include "Platform.h"
+
 // sdl is not situated in a specific folder for msvc
 // who knows why...
 #if defined(_MSC_VER)
@@ -48,5 +50,7 @@
 #include <algorithm>
 
 // custom global definitions
+#include "Types.h"
 #include "Memory.h"
 #include "Macros.h"
+#include "Constants.h"

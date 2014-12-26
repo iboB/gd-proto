@@ -10,9 +10,19 @@
 #include "GDProto.pch.h"
 #include "Texture.h"
 
+#include "ResourceConstants.h"
+
 using namespace std;
 
 Texture::Texture()
+    : Texture(UNNAMED)
+{
+}
+
+Texture::Texture(const std::string& name)
+    : m_name(name)
+    , m_width(0)
+    , m_height(0)
 {
     glGenTextures(1, &m_glHandle);
 }
@@ -43,18 +53,25 @@ void Texture::loadFromFile(const char* filename)
         glFormat = GL_RGB;
         break;
     case SDL_PIXELFORMAT_RGBA8888:
+    case SDL_PIXELFORMAT_ABGR8888: // png-s come with this???
         internalFormat = GL_RGBA8;
         glFormat = GL_RGBA;
         break;
     default:
-    {
-        cout << "unsupported texture format for " << filename << endl;
-        assert(false);
-    }
+        {
+            internalFormat = GL_RGB8;
+            glFormat = GL_RGB;
+
+            cout << "unsupported texture format for " << filename << endl;
+            assert(false);
+        }
         break;
     }
 
     loadFromData(internalFormat, image->w, image->h, glFormat, GL_UNSIGNED_BYTE, image->pixels);
+
+    m_width = image->w;
+    m_height = image->h;
 
     SDL_FreeSurface(image);
 }
@@ -62,13 +79,16 @@ void Texture::loadFromFile(const char* filename)
 void Texture::loadFromData(GLint internalFormat, GLsizei width, GLsizei height, GLenum format, GLenum type, const void* data)
 {
     glBindTexture(GL_TEXTURE_2D, m_glHandle);
-    glTexParameteri(GL_TEXTURE_2D, GL_GENERATE_MIPMAP, GL_TRUE);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
 
-    float maxAniso;
-    glGetFloatv(GL_MAX_TEXTURE_MAX_ANISOTROPY_EXT, &maxAniso);
-    glTexParameterf(GL_TEXTURE_2D, GL_TEXTURE_MAX_ANISOTROPY_EXT, maxAniso);
-
     glTexImage2D(GL_TEXTURE_2D, 0, internalFormat, width, height, 0, format, type, data);
+
+    m_width = width;
+    m_height = height;
+}
+
+void Texture::setParameter(GLenum param, GLint value)
+{
+    glTexParameteri(GL_TEXTURE_2D, param, value);
 }

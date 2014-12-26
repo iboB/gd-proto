@@ -11,6 +11,8 @@
 
 #include <Rocket/Core/RenderInterface.h>
 
+#include "GPUProgramPtr.h"
+
 class GUIRenderInterface : public Rocket::Core::RenderInterface
 {
 public:
@@ -48,17 +50,14 @@ public:
     void ReleaseTexture(Rocket::Core::TextureHandle textureHandle) override;
 
 private:
-    GLuint m_fragmentTextureShaderId;
-    GLuint m_fragmentColorShaderId;
-    GLuint m_vertexShaderId;
+    GPUProgramPtr m_textureProgram;
+    GPUProgramPtr m_colorProgram;
 
-    GLuint m_textureProgramId;
-    GLuint m_colorProgramId;
+    // shader parameters (uniforms)
+    int m_texture;
+    int m_textureProjection;
+    int m_textureTranslation;
 
-    // shader parameter uniform locations
-    GLuint m_ulTexture;
-    GLuint m_ulTextureProjection;
-    GLuint m_ulTextureTranslation;
-    GLuint m_ulColorProjection;
-    GLuint m_ulColorTranslation;
+    int m_colorProjection;
+    int m_colorTranslation;
 };
